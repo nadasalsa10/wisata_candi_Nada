@@ -12,12 +12,28 @@ class DetailScreen extends StatelessWidget {
       body: Column(
         children: [
           //DetailHeader
+          Stack(
+            children: [
+              // Gambar utama
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    candi.imageAsset,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              // Tombol back kustom (slide berikutnya)
+            ],
+          ),
           //DetailInfo
           //DetailGalery
         ],
       ),
-      ),
-      )
-    )
+    );
   }
 }
