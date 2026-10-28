@@ -16,4 +16,9 @@ class FavoriteProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void clearAll() {
+    _favorites.clear();
+    notifyListeners();
+  }
 }

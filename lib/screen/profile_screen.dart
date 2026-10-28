@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wisata_candi_nada/providers/auth_provider.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  //TODO: 1. Deklarasikan variabel yang dibutuhkan
-  bool isSignedIn = false;
-  String fullName = '';
-  String userName = '';
-  int favoriteCandisCount = 0;
-
-  @override
   Widget build(BuildContext context) {
+    // watch: layar ini ikut build ulang saat status sign in berubah
+    final auth = context.watch<AuthProvider>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -49,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               AssetImage('images/placeholder_image.png'),
                         ),
                       ),
-                      if (isSignedIn)
+                      if (auth.isSignedIn)
                         IconButton(
                           onPressed: () {},
                           icon: Icon(
