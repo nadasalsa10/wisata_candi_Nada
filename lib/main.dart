@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wisata_candi_nada/screen/profile_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:wisata_candi_nada/data/candi_data.dart';
 import 'package:wisata_candi_nada/providers/auth_provider.dart';
 import 'package:wisata_candi_nada/providers/favorite_provider.dart';
-import 'package:wisata_candi_nada/screen/sign_in_screen.dart';
+import 'package:wisata_candi_nada/screen/main_screen.dart'; // Import MainScreen
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
@@ -27,22 +26,10 @@ class MyApp extends StatelessWidget {
       title: 'Wisata Candi',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.deepPurple),
-          titleTextStyle: TextStyle(
-            color: Colors.deepPurple,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
-            .copyWith(primary: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // Ganti sesuai layar yang mau dicoba:
-      // const ProfileScreen()  atau  const SignInScreen()
-      //home: DetailScreen(candi: candiList[0]),
-      home: const ProfileScreen(),
+      home: const MainScreen(), // Jalankan MainScreen di sini
     );
   }
 }
