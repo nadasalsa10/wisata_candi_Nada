@@ -1,24 +1,24 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:wisata_candi_nada/models/candi.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-  final Set<String> _favorites = {};
+  final List<Candi> _favoriteCandi = [];
 
-  int get count => _favorites.length;
+  List<Candi> get favoriteCandi => _favoriteCandi;
 
-  bool isFavorite(String name) =>
-      _favorites.contains(name);
+  // Tambahkan getter count di bawah ini:
+  int get count => _favoriteCandi.length;
 
-  void toggle(String name) {
-    if (_favorites.contains(name)) {
-      _favorites.remove(name);
-    } else {
-      _favorites.add(name);
-    }
-    notifyListeners();
+  bool isFavorite(Candi candi) {
+    return _favoriteCandi.any((element) => element.name == candi.name);
   }
 
-  void clearAll() {
-    _favorites.clear();
+  void toggleFavorite(Candi candi) {
+    if (isFavorite(candi)) {
+      _favoriteCandi.removeWhere((element) => element.name == candi.name);
+    } else {
+      _favoriteCandi.add(candi);
+    }
     notifyListeners();
   }
 }

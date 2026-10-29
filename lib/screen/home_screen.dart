@@ -65,7 +65,7 @@ class ItemCard extends StatelessWidget {
         elevation: 2,
         clipBehavior: Clip.antiAlias,
         child: Column(
-          crossAxisAlignment: CrossAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Gambar Candi
             Expanded(
@@ -79,7 +79,7 @@ class ItemCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                crossAxisAlignment: CrossAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     candi.name,

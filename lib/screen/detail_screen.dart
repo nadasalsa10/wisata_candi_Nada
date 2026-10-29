@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wisata_candi_nada/models/candi.dart';
 import 'package:wisata_candi_nada/providers/favorite_provider.dart';
-import 'package:wisata_candi_nada/screen/profile_screen.dart'; // sementara, untuk uji pindah layar
 
 class DetailScreen extends StatelessWidget {
   final Candi candi;
@@ -12,21 +10,16 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // watch: membaca status favorit sekaligus mendengarkan perubahan
-    final isFav = context
-        .watch<FavoriteProvider>()
-        .isFavorite(candi.name);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //DetailHeader
+            // Header Gambar & Tombol Back
             Stack(
               children: [
-                // Gambar utama
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 30.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
@@ -37,164 +30,125 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Tombol back kustom: anak kedua Stack
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.deepPurple[100]?.withValues(alpha: 0.8),
+                      color: Colors.deepPurple[100]?.withOpacity(0.8),
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
-                      onPressed: () {},
                       icon: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                 ),
               ],
             ),
-            // DetailInfo
+            // Detail Informasi Candi
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  // Info atas
+                  // Baris Nama & Tombol Favorit
+                  Consumer<FavoriteProvider>(
+                    builder: (context, favProvider, child) {
+                      final isFav = favProvider.isFavorite(candi);
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            candi.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              isFav ? Icons.favorite : Icons.favorite_border,
+                              color: isFav ? Colors.red : null,
+                            ),
+                            onPressed: () {
+                              favProvider.toggleFavorite(candi);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  // Info Lokasi
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        candi.name,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // read: hanya menjalankan aksi, tidak mendengarkan
-                          context
-                              .read<FavoriteProvider>()
-                              .toggle(candi.name);
-                        },
-                        icon: Icon(
-                          isFav ? Icons.favorite : Icons.favorite_border,
-                          color: isFav ? Colors.red : null,
+                      const Icon(Icons.place, color: Colors.red),
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 70,
+                        child: Text(
+                          'Lokasi',
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
+                      Text(': ${candi.location}'),
                     ],
                   ),
-                  // Info tengah
+                  const SizedBox(height: 8),
+                  // Info Dibangun
+                  Row(
+                    children: [
+                      const Icon(Icons.calendar_month, color: Colors.blue),
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 70,
+                        child: Text(
+                          'Dibangun',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(': ${candi.built}'),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  // Info Tipe
+                  Row(
+                    children: [
+                      const Icon(Icons.house, color: Colors.green),
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 70,
+                        child: Text(
+                          'Tipe',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(': ${candi.type}'),
+                    ],
+                  ),
                   const SizedBox(height: 16),
-                  Row(children: [
-                    const Icon(Icons.place, color: Colors.red),
-                    const SizedBox(width: 8),
-                    const SizedBox(
-                      width: 70,
-                      child: Text('Lokasi',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    Text(': ${candi.location}'),
-                  ]),
-                  Row(children: [
-                    const Icon(Icons.calendar_month, color: Colors.blue),
-                    const SizedBox(width: 8),
-                    const SizedBox(
-                      width: 70,
-                      child: Text('Dibangun',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    Text(': ${candi.built}'),
-                  ]),
-                  Row(children: [
-                    const Icon(Icons.house, color: Colors.green),
-                    const SizedBox(width: 8),
-                    const SizedBox(
-                      width: 70,
-                      child: Text('Tipe',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    Text(': ${candi.type}'),
-                  ]),
-                  // Pemisah
+                  const Divider(),
                   const SizedBox(height: 16),
-                  Divider(color: Colors.deepPurple.shade100),
-                  const SizedBox(height: 16),
-                  // Info bawah
+                  // Deskripsi
                   const Text(
                     'Deskripsi',
                     style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(candi.description),
-                ],
-              ),
-            ),
-            // DetailGallery
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Divider(color: Colors.deepPurple.shade100),
-                  const Text('Galeri',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: candi.imageUrls.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                    color: Colors.deepPurple.shade100,
-                                    width: 2),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: candi.imageUrls[index],
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Container(
-                                      width: 120,
-                                      height: 120,
-                                      color: Colors.deepPurple[50]),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  const Text('Tap untuk memperbesar',
-                      style: TextStyle(fontSize: 12, color: Colors.black54)),
+                  const SizedBox(height: 8),
+                  Text(candi.description),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           ],
         ),
       ),
-      // Tombol sementara untuk menguji pindah layar (hapus setelah selesai uji)
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ProfileScreen()),
-          );
-        },
-        child: const Icon(Icons.person),
+    );
+  }
+}
