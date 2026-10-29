@@ -5,6 +5,7 @@ import 'package:wisata_candi_nada/providers/favorite_provider.dart';
 import 'package:wisata_candi_nada/screen/home_screen.dart';
 import 'package:wisata_candi_nada/screen/favorite_screen.dart';
 import 'package:wisata_candi_nada/screen/profile_screen.dart';
+import 'package:wisata_candi_nada/screen/sign_in_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MainScreen(),
+      home: Consumer<AuthProvider>(
+        builder: (context, auth, child) {
+          return auth.isSignedIn ? const MainScreen() : const SignInScreen();
+        },
+      ),
     );
   }
 }
