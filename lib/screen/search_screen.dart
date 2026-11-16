@@ -88,7 +88,6 @@ class _SearchScreenState extends State<SearchScreen> {
               itemCount: _filteredCandis.length,
               itemBuilder: (context, index) {
                 final candi = _filteredCandis[index];
-                // TODO: 8. Implementasi GestureDetector dan Hero animation
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
