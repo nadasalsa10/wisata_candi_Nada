@@ -6,6 +6,7 @@ import 'package:wisata_candi_nada/screen/home_screen.dart';
 import 'package:wisata_candi_nada/screen/favorite_screen.dart';
 import 'package:wisata_candi_nada/screen/profile_screen.dart';
 import 'package:wisata_candi_nada/screen/sign_in_screen.dart';
+import 'package:wisata_candi_nada/screen/search_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,39 +50,56 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  //TODO: 1. Deklarasikan variabel 
+  int _currentIndex = 0;
 
-  final List<Widget> _screens = [
+  final List<Widget> _children = [
     const HomeScreen(),
+    const SearchScreen(),
     const FavoriteScreen(),
     const ProfileScreen(),
   ];
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+      // TODO: 2. Buat properti body berupa widget yang ditampilkan
+      body: _children[_currentIndex],
+      // TODO: 3. Buat properti bottomNavigationBar dengan nilai Theme
+      bottomNavigationBar: Theme(
+        // TODO: 4. Buat data dan child dari Theme
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.deepPurple[50],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, color: Colors.deepPurple),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search, color: Colors.deepPurple),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite, color: Colors.deepPurple),
+              label: 'Favorite',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person, color: Colors.deepPurple),
+              label: 'Profile',
+            ),
+          ],
+          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.deepPurple[100],
+          showUnselectedLabels: true,
+        ),
       ),
     );
   }
