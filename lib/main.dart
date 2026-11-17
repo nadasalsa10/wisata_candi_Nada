@@ -7,6 +7,7 @@ import 'package:wisata_candi_nada/screen/favorite_screen.dart';
 import 'package:wisata_candi_nada/screen/profile_screen.dart';
 import 'package:wisata_candi_nada/screen/sign_in_screen.dart';
 import 'package:wisata_candi_nada/screen/search_screen.dart';
+import 'package:wisata_candi_nada/screen/interaction_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           return auth.isSignedIn ? const MainScreen() : const SignInScreen();
         },
       ),
+     
     );
   }
 }
